@@ -9,14 +9,33 @@ document.addEventListener("DOMContentLoaded", function() {
         listaCursosDiv.innerHTML = ''; // Limpiar la lista antes de cargar
         cursos.forEach(curso => {
             const cursoDiv = document.createElement('div');
+            
             cursoDiv.innerHTML = `
                 <h3>${curso.nombreCurso}</h3>
                 <p><strong>Instructor:</strong> ${curso.nombreInstructor}</p>
                 <p><strong>Fecha de Inicio:</strong> ${curso.fechaInicio}</p>
                 <p><strong>Duración:</strong> ${curso.duracion}</p>
-                <p><strong>Descripción:</strong> ${curso.descripcion}</p>
+                <button class="btnDetalles">Ver más detalles</button>
+                <div class="detalles" style="display: none;"><p><strong>Descripción:</strong> ${curso.descripcion}</p>
+                </div>
                 <hr>
+                
+
             `;
+    
+            const btnDetalles = cursoDiv.querySelector(".btnDetalles");
+            const detalles = cursoDiv.querySelector(".detalles");
+
+            btnDetalles.addEventListener("click", function () {
+                if (detalles.style.display === "none" || detalles.style.display === "") {
+                    detalles.style.display = "block";
+                    btnDetalles.textContent = "Mostrar menos";
+                } else {
+                    detalles.style.display = "none";
+                    btnDetalles.textContent = "Ver más detalles";
+                }
+            });
+
             listaCursosDiv.appendChild(cursoDiv);
         });
     }
