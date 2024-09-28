@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Cursos</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <header>
+        <h1>Gestión de Cursos</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Inicio</a></li>
+                <li><a href="#contenido">Cursos</a></li>
+                <li><a href="#agregarCursos">Agregar Curso</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <article id="contenido">
+        <h2>Lista de Cursos</h2>
+        <div id="listaCursos"></div>
+    </article>
+
+    <section id="agregarCursos">
+        <h2>Agregar Curso</h2>
+        <form id="contactForm" autocomplete="off">
+            <label for="cname">Nombre curso: </label><br>
+            <input type="text" id="cname" name="cname" ><br>
+            
+            <label for="iname">Nombre del instructor: </label><br>
+            <input type="text" id="iname" name="iname" ><br>
+            
+            <label for="fecha">Fecha de inicio: </label><br>
+            <input type="date" id="fecha" name="fecha" ><br>
+            
+            <label for="duracion">Duración: </label><br>
+            <input type="text" id="duracion" name="duracion" ><br>
+            
+            <label for="descripcion">Descripción:</label><br>
+            <textarea id="descripcion" name="descripcion" ></textarea><br><br>
+            
+            <input type="submit" value="Enviar"><br><br>
+        </form>
+    </section>
+
+</body>
+</html>
