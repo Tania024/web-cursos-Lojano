@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     btnDetalles.textContent = "Ver más detalles";
                 }
             });
-
+            
             listaCursosDiv.appendChild(cursoDiv);
         });
     }
