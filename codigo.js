@@ -3,11 +3,13 @@ document.addEventListener("DOMContentLoaded", function() {
     const listaCursosDiv = document.getElementById("listaCursos");
     const buscarCursosInput = document.getElementById("buscarCursos");
 
+    let cursoEditadoIndex = null;
 
      // Función para cargar los cursos desde localStorage
      function cargarCursos(filtro = "") {
         const cursos = JSON.parse(localStorage.getItem('cursos')) || [];
         listaCursosDiv.innerHTML = ''; // Limpiar la lista antes de cargar
+
         const cursosFiltrados = cursos.filter(curso => 
             curso.nombreCurso.toLowerCase().includes(filtro.toLowerCase()) ||
             curso.nombreInstructor.toLowerCase().includes(filtro.toLowerCase())
@@ -18,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
         
-        cursosFiltrados.forEach(curso => {
+        cursosFiltrados.forEach((curso, index) => {
             const cursoDiv = document.createElement('div');
             
             cursoDiv.innerHTML = `
@@ -27,6 +29,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 <p><strong>Fecha de Inicio:</strong> ${curso.fechaInicio}</p>
                 <p><strong>Duración:</strong> ${curso.duracion}</p>
                 <button class="btnDetalles">Ver más detalles</button>
+                <button class="btnEditar">Editar</button>
+                <button class="btnEliminar">Eliminar</button>
                 <div class="detalles" style="display: none;"><p><strong>Descripción:</strong> ${curso.descripcion}</p>
                 </div>
                 <hr>
@@ -35,7 +39,10 @@ document.addEventListener("DOMContentLoaded", function() {
             `;
     
             const btnDetalles = cursoDiv.querySelector(".btnDetalles");
+            const btnEditar = cursoDiv.querySelector(".btnEditar");
+            const btnEliminar = cursoDiv.querySelector(".btnEliminar");
             const detalles = cursoDiv.querySelector(".detalles");
+            
 
             btnDetalles.addEventListener("click", function () {
                 if (detalles.style.display === "none" || detalles.style.display === "") {
@@ -45,6 +52,26 @@ document.addEventListener("DOMContentLoaded", function() {
                     detalles.style.display = "none";
                     btnDetalles.textContent = "Ver más detalles";
                 }
+            });
+
+            // Función para eliminar curso
+            btnEliminar.addEventListener("click", function () {
+                if (confirm("¿Estás seguro de que quieres eliminar este curso?")) {
+                    cursos.splice(index, 1);
+                    localStorage.setItem('cursos', JSON.stringify(cursos));
+                    cargarCursos(); // Recargar la lista de cursos
+                }
+            });
+
+            // Función para editar curso
+            btnEditar.addEventListener("click", function () {
+                cursoEditadoIndex = index;
+                document.getElementById("cname").value = curso.nombreCurso;
+                document.getElementById("iname").value = curso.nombreInstructor;
+                document.getElementById("fecha").value = curso.fechaInicio;
+                document.getElementById("duracion").value = curso.duracion;
+                document.getElementById("descripcion").value = curso.descripcion;
+                window.scrollTo(0, document.getElementById("agregarCursos").offsetTop); // Llevar al formulario
             });
             
             listaCursosDiv.appendChild(cursoDiv);
@@ -92,11 +119,17 @@ document.addEventListener("DOMContentLoaded", function() {
         duracion,
         descripcion
     };
-    
-    // Obtener cursos existentes o crear uno nuevo
-    const cursos = JSON.parse(localStorage.getItem('cursos')) || [];
-    cursos.push(curso); // Agregar el nuevo curso
 
+    // Obtener cursos existentes o crear uno nuevo
+    const cursos = JSON.parse(localStorage.getItem("cursos")) || [];
+
+    if (cursoEditadoIndex !== null) {
+        cursos[cursoEditadoIndex] = curso; // Editar el curso existente
+        cursoEditadoIndex = null; // Resetear el índice de edición
+    } else {
+        cursos.push(curso); // Agregar un nuevo curso
+    }
+    
     // Almacenar el nuevo array en localStorage
     localStorage.setItem('cursos', JSON.stringify(cursos));
     alert('¡Formulario enviado correctamente!');
