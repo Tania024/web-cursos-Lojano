@@ -1,13 +1,24 @@
 document.addEventListener("DOMContentLoaded", function() {
     const form = document.getElementById("contactForm");
     const listaCursosDiv = document.getElementById("listaCursos");
+    const buscarCursosInput = document.getElementById("buscarCursos");
 
 
      // Función para cargar los cursos desde localStorage
-     function cargarCursos() {
+     function cargarCursos(filtro = "") {
         const cursos = JSON.parse(localStorage.getItem('cursos')) || [];
         listaCursosDiv.innerHTML = ''; // Limpiar la lista antes de cargar
-        cursos.forEach(curso => {
+        const cursosFiltrados = cursos.filter(curso => 
+            curso.nombreCurso.toLowerCase().includes(filtro.toLowerCase()) ||
+            curso.nombreInstructor.toLowerCase().includes(filtro.toLowerCase())
+        );
+        
+        if (cursosFiltrados.length === 0) {
+            listaCursosDiv.innerHTML = '<p>No se encontraron cursos.</p>';
+            return;
+        }
+        
+        cursosFiltrados.forEach(curso => {
             const cursoDiv = document.createElement('div');
             
             cursoDiv.innerHTML = `
@@ -40,6 +51,12 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
+    // Agregar un evento de búsqueda para filtrar los cursos en tiempo real
+    buscarCursosInput.addEventListener('input', function() {
+        const filtro = buscarCursosInput.value; 
+        cargarCursos(filtro); // Volver a cargar los cursos aplicando el filtro
+    });
+
     // Cargar los cursos al inicio
     cargarCursos();
 
@@ -58,6 +75,13 @@ document.addEventListener("DOMContentLoaded", function() {
     // Validar que todos los campos estén completos
     if (!nombreCurso || !nombreInstructor || !fechaInicio || !duracion || !descripcion) {
         alert("Por favor, completa todos los campos.");
+        return;
+    }
+
+    // Validar que la fecha de inicio no sea anterior al día actual
+    const fechaActual = new Date().toISOString().split("T")[0];
+    if (fechaInicio < fechaActual) {
+        alert("La fecha de inicio no puede ser anterior a hoy.");
         return;
     }
 

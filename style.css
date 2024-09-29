@@ -72,12 +72,40 @@ form input[type="submit"]:hover {
     background: #45a049;
 }
 
+/* Estilo para la barra de búsqueda */
+#buscarCursos {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 2px solid #4CAF50;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #f4f4f4;
+}
+
 #listaCursos div {
     margin: 10px 0;
     padding: 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
     background: #f9f9f9;
+}
+
+.btnDetalles {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+/* Efecto hover del botón "Ver más detalles" */
+.btnDetalles:hover {
+    background-color: #45a049;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .detalles {
